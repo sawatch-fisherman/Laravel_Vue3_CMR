@@ -21,6 +21,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
 # php.iniの設定をコピー
 COPY ./php.ini /usr/local/etc/php/php.ini
 
+# 作業ディレクトリを指定
 WORKDIR /data
 
+# コンテナがリッスンするポートを指定
+EXPOSE 5173
 
