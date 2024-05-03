@@ -21,8 +21,8 @@ const form = reactive({
     memo: null
 })
 
-const storeItem = () => {
-    Inertia.post('/items', form)
+const storeCustomer = () => {
+    Inertia.post('/customers', form)
 }
 </script>
 
@@ -41,7 +41,7 @@ const storeItem = () => {
 
                         <BreezeValidationErrors :errors="errors" class="mb-4" />
                         <section class="text-gray-600 body-font relative">
-                            <form @submit.prevent="storeItem">
+                            <form @submit.prevent="storeCustomer">
 
                                 <div class="container px-5 py-8 mx-auto">
                                     <div class="lg:w-1/2 md:w-2/3 mx-auto">
