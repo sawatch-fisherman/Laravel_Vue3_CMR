@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Customer;
-use app\Models\Item;
+use App\Models\Item;
 
 class Purchase extends Model
 {
