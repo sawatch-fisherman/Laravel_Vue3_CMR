@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\InertiaTestController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +18,29 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// CRUDを一括で作成
+Route::resource('items', ItemController::class)->middleware(['auth', 'verified']);
+
+// CRUDを一括で作成
+Route::resource('customers', CustomerController::class)->middleware(['auth', 'verified']);
+
+Route::get('/inertia-test', function () {
+    return Inertia::render('InertiaTest');
+    }
+);
+
+Route::get('/component-test', function(){
+    return Inertia::render('ComponentTest');
+    }
+);
+
+Route::get('/inertia/index', [InertiaTestController::class, 'index'])->name('inertia.index');
+Route::get('/inertia/create', [InertiaTestController::class, 'create'])->name('inertia.create');
+Route::post('/inertia', [InertiaTestController::class, 'store'])->name('inertia.store');
+Route::get('/inertia/show/{id}', [InertiaTestController::class, 'show'])->name('inertia.show');
+Route::delete('inertia/{id}', [InertiaTestController::class, 'delete'])->name('inertia.delete');
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
