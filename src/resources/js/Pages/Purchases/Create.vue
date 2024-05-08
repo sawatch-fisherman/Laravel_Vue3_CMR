@@ -55,6 +55,10 @@ const storePurchase = () => {
 }
 
 const quantity = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] // option用
+
+const setCustomerId = id => {
+    form.customer_id = id
+}
 </script>
 
 <template>
@@ -91,7 +95,7 @@ const quantity = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] // option用
                                                 <div class="relative">
                                                     <label for="customer"
                                                         class="leading-7 text-sm text-gray-600">会員名</label>
-                                                    <MicroModal />
+                                                    <MicroModal @update:customerId="setCustomerId" />
                                                 </div>
                                             </div>
 
