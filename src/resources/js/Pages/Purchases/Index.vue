@@ -5,6 +5,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import FlashMessage from '@/Components/FlashMessage.vue'
 import Pagination from '@/Components/Pagination.vue'
 import { Inertia } from '@inertiajs/inertia'
+import dayjs from 'dayjs'
 
 const props = defineProps({
     orders: Object
@@ -71,7 +72,7 @@ onMounted(() => {
                                                 </td>
                                                 <td class="border-b-2 border-gray-200 px-4 py-3">{{ order.total }}</td>
                                                 <td class="border-b-2 border-gray-200 px-4 py-3">{{ order.status }}</td>
-                                                <td class="border-b-2 border-gray-200 px-4 py-3">{{ order.created_at }}</td>
+                                                <td class="border-b-2 border-gray-200 px-4 py-3">{{ dayjs(order.created_at).format('YYYY-MM-DD HH:mm:ss') }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
