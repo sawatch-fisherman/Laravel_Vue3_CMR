@@ -91,7 +91,8 @@ class AnalysisController extends Controller
 
         // 構成比を出すために変数を使う
         // 7 構成比
-        DB::statement("set @total = ${total} ;");
+        //DB::statement("set @total = ${total} ;"); // PHP8.2以降で廃止になった
+        DB::statement("set @total = {$total} ;");   // PHP8.2以降の書き方
         $data = DB::table($subQuery)
         ->selectRaw('decile,
             average,
@@ -107,3 +108,4 @@ class AnalysisController extends Controller
         return Inertia::render('Analysis');
     }
 }
+
