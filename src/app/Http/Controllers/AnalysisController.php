@@ -101,10 +101,6 @@ class AnalysisController extends Controller
             totalRatio')
         ->get();
 
-
-
-        dd($data);
-
         return Inertia::render('Analysis');
     }
 }
