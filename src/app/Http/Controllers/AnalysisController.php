@@ -11,7 +11,7 @@ class AnalysisController extends Controller
 {
     public function index()
     {
-        $startDate = '2024-04-10';
+        $startDate = '2023-05-17';
         $endDate = '2024-05-17';
 
         // $period = Order::betweenDate($startDate, $endDate)
@@ -29,6 +29,26 @@ class AnalysisController extends Controller
         // ->groupBy('date')
         // ->selectRaw('date, sum(totalPerPurchase) as total')
         // ->get();
+
+        // RFM分析
+        // 1. 購買ID毎にまとめる
+        $subQuery = Order::betweenDate(
+                        $startDate,
+                        $endDate
+                    )
+                    ->groupBy('id')
+                    ->selectRaw('id, customer_id, customer_name, SUM(subtotal) as totalPerPurchase, created_at');
+
+        // datediffで日付の差分, maxで日付の最新日
+        // 2. 会員毎にまとめて最終購入日、回数、合計金額を取得
+        // recency:最終購入日から経過した日数, frequency：検索期間で購入した回数、検索期間で購入した合計金額
+        $subQuery = DB::table($subQuery)
+                        ->groupBy('customer_id')
+                        ->selectRaw('customer_id, customer_name, max(created_at) as recentDate,
+                        datediff(now(), max(created_at)) as recency, count(customer_id) as frequency,
+                        sum(totalPerPurchase) as monetary')->get();
+
+        dd($subQuery);
 
         return Inertia::render('Analysis');
     }
