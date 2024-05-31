@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class RFMService
 {
@@ -44,6 +45,8 @@ class RFMService
             when ? <= monetary then 2
             else 1 end as m', $rfmPrms);
 
+        Log::debug($subQuery->get());
+
         // 5.ランク毎の数を計算する
         $totals = DB::table($subQuery)->count();
 
@@ -53,11 +56,15 @@ class RFMService
             ->orderBy('r', 'desc')
             ->pluck('count(r)');
 
+        Log::debug($rCount);
+
         $fCount = DB::table($subQuery)
             ->groupBy('f')
             ->selectRaw('f, count(f)')
             ->orderBy('f', 'desc')
             ->pluck('count(f)');
+
+        Log::debug($fCount);
 
         $mCount = DB::table($subQuery)
             ->groupBy('m')
@@ -65,6 +72,7 @@ class RFMService
             ->orderBy('m', 'desc')
             ->pluck('count(m)');
 
+        Log::debug($mCount);
         // dd($rCount, $fCount, $mCount);
 
         $eachCount = []; // Vue側に渡すようの空の配列
