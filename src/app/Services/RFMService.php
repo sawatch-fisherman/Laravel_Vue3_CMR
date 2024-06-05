@@ -51,24 +51,27 @@ class RFMService
         $totals = DB::table($subQuery)->count();
 
         $rCount = DB::table($subQuery)
-            ->groupBy('r')
-            ->selectRaw('r, count(r)')
+            ->rightJoin('ranks', 'ranks.rank', '=', 'r')
+            ->selectRaw('ranks.rank as r, count(r)')
+            ->groupBy('ranks.rank')
             ->orderBy('r', 'desc')
             ->pluck('count(r)');
 
         Log::debug($rCount);
 
         $fCount = DB::table($subQuery)
-            ->groupBy('f')
-            ->selectRaw('f, count(f)')
+            ->rightJoin('ranks', 'ranks.rank', '=', 'f')
+            ->selectRaw('ranks.rank as f, count(f)')
+            ->groupBy('ranks.rank')
             ->orderBy('f', 'desc')
             ->pluck('count(f)');
 
         Log::debug($fCount);
 
         $mCount = DB::table($subQuery)
-            ->groupBy('m')
-            ->selectRaw('m, count(m)')
+            ->rightJoin('ranks', 'ranks.rank', '=', 'm')
+            ->selectRaw('ranks.rank as m, count(m)')
+            ->groupBy('ranks.rank')
             ->orderBy('m', 'desc')
             ->pluck('count(m)');
 
@@ -91,8 +94,9 @@ class RFMService
 
         // 6. RとFで2次元で表示してみる
         $data = DB::table($subQuery)
-            ->groupBy('r')
-            ->selectRaw('concat("r_", r) as rRank,
+            ->rightJoin('ranks', 'ranks.rank', '=', 'r')
+            ->groupBy('ranks.rank')
+            ->selectRaw('concat("r_", ranks.rank) as rRank,
                 count(case when f = 5 then 1 end ) as f_5,
                 count(case when f = 4 then 1 end ) as f_4,
                 count(case when f = 3 then 1 end ) as f_3,
